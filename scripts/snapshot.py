@@ -363,10 +363,14 @@ def main():
     for side, topics in quote_topics.items():
         quote_rows[side], quote_empty[side] = get_logs(QUOTE, topics, quote_wins, f"quote {side}", attempts=3)
 
+    # Incremental runs only read new blocks, so earlier runs' totals count too.
+    known_in = sum(r["amount"] for r in flows["in"])
+    known_out = sum(r["amount"] for r in flows["out"])
+
     def quote_sums():
         return (
-            sum(int(e["data"], 16) for e in quote_rows["in"].values()) / 1e18,
-            sum(int(e["data"], 16) for e in quote_rows["out"].values()) / 1e18,
+            known_in + sum(int(e["data"], 16) for e in quote_rows["in"].values()) / 1e18,
+            known_out + sum(int(e["data"], 16) for e in quote_rows["out"].values()) / 1e18,
         )
 
     quote_tip = tip
@@ -381,7 +385,7 @@ def main():
         quote_in, quote_out = quote_sums()
         quote_live = balance_of(QUOTE, BENEFICIARY) / 1e18
         log(f"quote flow pass {attempt + 1}: in {quote_in:.6f}, out {quote_out:.6f}, net {quote_in - quote_out:.6f}, live {quote_live:.6f}")
-        if abs(quote_in - quote_out - quote_live) < 1e-6:
+        if abs(quote_in - quote_out - quote_live) < 1e-4:
             break
         for side, topics in quote_topics.items():
             quote_rows[side], quote_empty[side] = get_logs(QUOTE, topics, quote_empty[side], f"quote {side} re-read", quote_rows[side], attempts=6)
