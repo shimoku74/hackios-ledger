@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>$HackiOS Ledger</title>
+<meta name="description" content="The open books of the $HackiOS token: contract facts, where the tax goes, what a sale really returns, and who holds it. Read live from BNB Chain. No wallet connect.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://bsc-dataseed.bnbchain.org https://bsc-rpc.publicnode.com https://bsc-dataseed1.defibit.io https://bsc-dataseed1.ninicoin.io https://api.dexscreener.com https://api.geckoterminal.com https://api.github.com; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#c8bd96">
+<meta property="og:title" content="$HackiOS Ledger">
+<meta property="og:description" content="The token's open books, read live from BNB Chain. No wallet connect.">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css?v=202611070824">
+</head>
+<body class="is-loading">
+<a class="skip" href="#facts" data-i="skip">Skip to content</a>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <canvas class="loader__art" id="loaderArt"></canvas>
+  <div class="loader__row">
+    <div class="loader__num"><span id="loaderNum">0</span><i>%</i></div>
+    <div class="loader__bar"><span id="loaderBar"></span></div>
+    <span class="loader__brand">$HACKIOS</span>
+  </div>
+  <div class="loader__top"><span class="dot"></span><span data-i="loading">Reading the chain</span><span class="loader__year">BNB CHAIN · 56</span></div>
+</div>
+
+<header class="bar" id="bar">
+  <div class="bar__frame" aria-hidden="true"><span class="bar__line" id="barLine"></span><span class="bar__tick"></span></div>
+  <a class="brand" href="#top" aria-label="Top">
+    <svg viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><path d="M22 14v36M22 33c0-6 4.5-9.5 9.5-9.5S41 27 41 33v17" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="46" cy="16.5" r="5.5" fill="#e8170f"/></svg>
+    <span>$HACKIOS</span>
+  </a>
+  <span class="bar__mark" aria-hidden="true"></span>
+  <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu"><span id="menuLabel" data-i="menu">MENU</span><i aria-hidden="true"></i></button>
+</header>
+
+<nav class="menu" id="menu" aria-label="Sections" hidden>
+  <ol class="menu__list" id="menuList"></ol>
+  <div class="menu__side">
+    <div class="langs" id="langs" role="group" aria-label="Language"></div>
+    <ul class="menu__links">
+      <li><a href="https://hackios-web.vercel.app/en" rel="noopener" target="_blank">hakios site</a></li>
+      <li><a href="https://github.com/oosexgang" rel="noopener" target="_blank">GitHub</a></li>
+      <li><a href="https://t.me/oosexgangdevs" rel="noopener" target="_blank">Telegram</a></li>
+      <li><a href="https://x.com/hacki_os" rel="noopener" target="_blank">X</a></li>
+      <li><a href="https://flap.sh/bnb/0x5be8dca38cff485d3a80809195284c7f74c77777" rel="noopener" target="_blank">Flap</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="top">
+
+<section class="hero theme-khaki" data-theme="khaki">
+  <canvas class="hero__orbit" id="orbit" aria-hidden="true"></canvas>
+  <div class="hero__tip" id="orbitTip" hidden></div>
+  <div class="hero__inner">
+    <h1 class="hero__word" id="heroWord" aria-label="$HackiOS"><span class="hero__fit" id="heroFit" aria-hidden="true">$HACKIOS</span></h1>
+    <div class="hero__row">
+      <p class="note"><span class="tag">NO_001</span><span data-i="hero_note1"></span></p>
+      <p class="note note--right"><span class="tag">NO_002</span><span data-i="hero_note2"></span></p>
+    </div>
+    <div class="hero__foot">
+      <p class="hero__lead" data-i="hero_lead"></p>
+      <a class="round" href="#wallet" data-magnetic><span data-i="hero_cta"></span></a>
+    </div>
+  </div>
+  <div class="hero2" id="heroSecond">
+    <p class="hero2__a" data-i="hero2_a"></p>
+    <p class="hero2__b"><span data-i="hero2_b"></span></p>
+    <p class="hero2__note"><span class="tag">NO_003</span><span data-i="team_mission"></span></p>
+  </div>
+</section>
+
+<div class="ticker theme-night" aria-hidden="true"><div class="ticker__track" id="ticker"></div></div>
+
+<section class="stats theme-night" data-theme="night" aria-label="Live numbers">
+  <dl class="stats__grid" id="stats"></dl>
+</section>
+
+<section class="scene numbers theme-night" id="numbers" data-theme="night" data-bar="clear">
+  <div class="numbers__glow" id="numbersGlow" aria-hidden="true"></div>
+  <svg class="numbers__arc" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true"><path id="numbersArc" pathLength="1" d="M0 60 C 280 300, 720 300, 1000 60"/></svg>
+  <div class="numbers__head"><span class="tag">NO_004</span><h2 class="sub sub--flat" data-i="numbers_h"></h2></div>
+  <div class="numbers__row" id="numbersRow"></div>
+</section>
+
+<section class="scene how theme-night" id="how" data-theme="night" data-bar="clear">
+  <canvas class="how__stars" id="howStars" aria-hidden="true"></canvas>
+  <div class="how__glow" id="howGlow" aria-hidden="true"></div>
+  <h2 class="display how__title" id="howTitle"><span class="ln"><span data-i="how_h1"></span></span><span class="ln ln--hl"><span data-i="how_h2"></span></span></h2>
+  <div class="how__rings" id="howRings" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="how__dome" id="howDome" aria-hidden="true"></div>
+  <div class="how__nodes" id="howNodes" aria-hidden="true"></div>
+  <div class="how__core" id="howCore">
+    <span class="how__pill" id="howPill"></span>
+    <i class="how__wire" aria-hidden="true"></i>
+    <ul class="how__list" id="howList"></ul>
+  </div>
+  <ul class="how__static" id="howStatic"></ul>
+</section>
+
+<section class="scene team theme-night" id="team" data-theme="night" data-bar="clear">
+  <div class="team__glow" id="teamGlow" aria-hidden="true"></div>
+  <div class="team__head" id="teamHead">
+    <strong class="team__num">5<i class="dot"></i></strong>
+    <h2 class="team__title"><span data-i="team_h1"></span> <span data-i="team_h2"></span></h2>
+  </div>
+  <div class="team__stage" id="teamStage"></div>
+  <div class="team__note" id="teamNote">
+    <p><span class="tag">NO_005</span><span data-i="team_mission"></span></p>
+    <p class="team__sponsor"><span class="tag">NO_006</span><span><span data-i="team_sponsor"></span>: <b>@hualuo520</b></span></p>
+  </div>
+</section>
+
+<section class="sec theme-khaki" id="why" data-theme="khaki">
+  <div class="wrap">
+    <h2 class="display reveal"><span class="ln"><span data-i="why_h1"></span></span><span class="ln ln--hl"><span data-i="why_h2"></span></span></h2>
+    <p class="lead reveal" data-i="why_lead"></p>
+    <ol class="why" id="whyList"></ol>
+    <div class="why-end">
+      <div><h3 class="sub sub--flat" data-i="why_not_t"></h3><p data-i="why_not_d"></p></div>
+      <div><h3 class="sub sub--flat" data-i="why_use_t"></h3><p id="whyUse"></p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec theme-night" id="facts" data-theme="night">
+  <div class="pass-hang" aria-hidden="true">
+    <div class="pass" id="pass">
+      <i class="pass__strap"></i><i class="pass__clip"></i>
+      <div class="pass__card">
+        <strong>$HACKIOS<i class="dot"></i></strong>
+        <dl class="pass__rows" id="passRows"></dl>
+        <small>0x5be8…7777 · BNB CHAIN</small>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <h2 class="display display--sm reveal"><span class="ln"><span data-i="facts_h1"></span></span><span class="ln ln--hl"><span data-i="facts_h2"></span></span></h2>
+    <p class="lead reveal" data-i="facts_lead"></p>
+    <ol class="facts" id="factsList"></ol>
+  </div>
+</section>
+
+<section class="sec sec--flow theme-khaki" id="money" data-theme="khaki">
+  <div class="wrap">
+    <h2 class="display reveal"><span class="ln"><span data-i="money_h1"></span></span><span class="ln ln--hl"><span data-i="money_h2"></span></span></h2>
+    <p class="lead reveal" data-i="money_lead"></p>
+  </div>
+  <div class="flow theme-night" id="flow" data-theme="night" data-bar="clear">
+    <div class="flow__stage">
+      <div class="flow__big" id="flowBig" aria-hidden="true"></div>
+      <div class="flow__track" aria-hidden="true"><span class="flow__fill" id="flowFill"></span><span class="flow__dot" id="flowDot"></span></div>
+      <ol class="flow__steps" id="flowSteps"></ol>
+    </div>
+    <i class="flow__floor" aria-hidden="true"></i>
+    <ol class="flow__tabs" id="flowTabs" aria-hidden="true"></ol>
+  </div>
+  <div class="wrap">
+    <h3 class="sub reveal" data-i="ledger_h"></h3>
+    <div class="ledger-head" id="ledgerAddr"></div>
+    <dl class="tiles" id="ledgerTiles"></dl>
+    <div class="table-wrap"><table class="table" id="ledgerTable"></table></div>
+    <button class="ghost" id="ledgerMore" type="button" hidden></button>
+  </div>
+</section>
+
+<section class="sec theme-night" id="exit" data-theme="night">
+  <div class="wrap">
+    <h2 class="display display--sm reveal"><span class="ln"><span data-i="exit_h1"></span></span><span class="ln ln--hl"><span data-i="exit_h2"></span></span></h2>
+    <p class="lead reveal" id="exitLead"></p>
+    <div class="calc">
+      <form class="calc__in" id="calcForm" novalidate>
+        <div class="seg" role="group" id="calcMode">
+          <button type="button" class="on" data-mode="sell" data-i="mode_sell"></button>
+          <button type="button" data-mode="buy" data-i="mode_buy"></button>
+        </div>
+        <label class="field"><span id="calcLabel"></span>
+          <input id="calcAmount" inputmode="decimal" autocomplete="off" value="1000000">
+        </label>
+        <input id="calcRange" class="range" type="range" min="0" max="1000" value="500" aria-label="Amount">
+        <div class="presets" id="calcPresets"></div>
+      </form>
+      <div class="calc__out" aria-live="polite">
+        <p class="calc__big"><span class="k" data-i="r_get"></span><strong id="calcOut">—</strong><span class="sub-v" id="calcOutAlt"></span></p>
+        <dl class="rows">
+          <div><dt data-i="r_chart"></dt><dd id="calcSpot">—</dd></div>
+          <div><dt data-i="r_loss"></dt><dd id="calcLoss">—</dd></div>
+          <div><dt data-i="r_after"></dt><dd id="calcAfter">—</dd></div>
+        </dl>
+        <p class="small" data-i="r_foot"></p>
+      </div>
+    </div>
+    <figure class="chart">
+      <figcaption data-i="curve_title"></figcaption>
+      <div class="plot" id="curvePlot"></div>
+      <details class="tv"><summary data-i="table_view"></summary><div class="table-wrap"><table class="table table--sm" id="curveTable"></table></div></details>
+    </figure>
+    <h3 class="sub reveal" data-i="price_h"></h3>
+    <div class="hero-num reveal"><strong id="athDrop">—</strong><span data-i="price_ath"></span></div>
+    <figure class="chart">
+      <figcaption data-i="price_title"></figcaption>
+      <div class="plot" id="pricePlot"></div>
+      <details class="tv"><summary data-i="table_view"></summary><div class="table-wrap"><table class="table table--sm" id="priceTable"></table></div></details>
+    </figure>
+  </div>
+</section>
+
+<section class="sec theme-khaki" id="holders" data-theme="khaki">
+  <div class="wrap">
+    <h2 class="display reveal"><span class="ln"><span data-i="holders_h1"></span></span><span class="ln ln--hl"><span data-i="holders_h2"></span></span></h2>
+    <p class="lead reveal" id="holdersLead"></p>
+    <figure class="chart chart--flat">
+      <figcaption data-i="dist_title"></figcaption>
+      <div class="dist" id="dist"></div>
+      <ul class="legend" id="distLegend"></ul>
+    </figure>
+    <div class="table-wrap"><table class="table" id="holdersTable"></table></div>
+    <button class="ghost" id="holdersMore" type="button" hidden></button>
+  </div>
+</section>
+
+<section class="sec theme-night" id="wallet" data-theme="night">
+  <div class="wrap">
+    <h2 class="display display--sm reveal"><span class="ln"><span data-i="wallet_h1"></span></span><span class="ln ln--hl"><span data-i="wallet_h2"></span></span></h2>
+    <p class="lead reveal" data-i="wallet_lead"></p>
+    <form class="line-form" id="walletForm" novalidate>
+      <input id="walletInput" data-i-ph="wallet_ph" spellcheck="false" autocomplete="off" aria-label="Wallet address">
+      <button type="submit" data-i="wallet_go"></button>
+    </form>
+    <p class="msg" id="walletMsg" role="status"></p>
+    <dl class="tiles tiles--4" id="walletTiles" hidden></dl>
+  </div>
+</section>
+
+<section class="bigm theme-khaki" id="marquee" data-theme="khaki" aria-hidden="true">
+  <div class="bigm__row bigm__row--a"></div>
+  <div class="bigm__row bigm__row--b"></div>
+  <div class="bigm__floats" id="marqueeFloats"></div>
+</section>
+
+<section class="sec theme-khaki" id="work" data-theme="khaki">
+  <div class="wrap">
+    <h2 class="display display--sm reveal"><span class="ln"><span data-i="work_h1"></span></span><span class="ln ln--hl"><span data-i="work_h2"></span></span></h2>
+    <p class="lead reveal" data-i="work_lead"></p>
+    <ul class="repos" id="repos"></ul>
+    <p class="msg" id="workMsg" role="status"></p>
+    <div class="cols">
+      <div><h3 class="sub" data-i="work_commits"></h3><ol class="log" id="commits"></ol></div>
+      <div><h3 class="sub" data-i="work_shipped"></h3><ol class="log" id="shipped"></ol></div>
+    </div>
+    <p class="small note-line" data-i="work_note"></p>
+  </div>
+</section>
+
+<section class="sec theme-night" id="shield" data-theme="night">
+  <div class="wrap">
+    <h2 class="display reveal"><span class="ln"><span data-i="shield_h1"></span></span><span class="ln ln--hl"><span data-i="shield_h2"></span></span></h2>
+    <p class="lead reveal" data-i="shield_lead"></p>
+    <div class="ca">
+      <span class="k" data-i="shield_official"></span>
+      <code id="caAddr"></code>
+      <button class="ghost ghost--sm" id="caCopy" type="button" data-i="copy"></button>
+    </div>
+    <form class="line-form" id="shieldForm" novalidate>
+      <input id="shieldInput" data-i-ph="shield_ph" spellcheck="false" autocomplete="off" aria-label="Token address">
+      <button type="submit" data-i="shield_go"></button>
+    </form>
+    <p class="verdict" id="shieldMsg" role="status"></p>
+    <div class="cols">
+      <div><h3 class="sub" data-i="shield_list"></h3><ul class="log" id="lookalikes"></ul></div>
+      <ol class="rules">
+        <li data-i="shield_rule1"></li>
+        <li data-i="shield_rule2"></li>
+        <li data-i="shield_rule3"></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="sec theme-khaki" id="promises" data-theme="khaki">
+  <div class="wrap">
+    <h2 class="display reveal"><span class="ln"><span data-i="promises_h1"></span></span><span class="ln ln--hl"><span data-i="promises_h2"></span></span></h2>
+    <div id="promisesBody"></div>
+  </div>
+</section>
+
+<section class="sec theme-night" id="faq" data-theme="night">
+  <div class="wrap">
+    <h2 class="display reveal"><span class="ln"><span data-i="faq_h1"></span></span><span class="ln ln--hl"><span data-i="faq_h2"></span></span></h2>
+    <div class="faq">
+      <details><summary data-i="q1"></summary><p data-i="a1"></p></details>
+      <details><summary data-i="q2"></summary><p data-i="a2"></p></details>
+      <details><summary data-i="q3"></summary><p data-i="a3"></p></details>
+      <details><summary data-i="q4"></summary><p data-i="a4"></p></details>
+      <details><summary data-i="q5"></summary><p data-i="a5"></p></details>
+      <details><summary data-i="q6"></summary><p data-i="a6"></p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final theme-night" data-theme="night">
+  <h2 class="display reveal"><span class="ln"><span data-i="final_1"></span></span><span class="ln"><span data-i="final_2"></span></span><span class="ln"><span data-i="final_3"></span></span></h2>
+</section>
+
+</main>
+
+<footer class="foot theme-khaki" data-theme="khaki">
+  <div class="foot__word" aria-hidden="true" id="footWord"><span>LEDGER</span><i class="dot"></i></div>
+  <div class="foot__row">
+    <p class="small" data-i="foot_disclaimer"></p>
+    <p class="small mono" id="footBlock"></p>
+    <a class="back" href="#top" data-i="back_top"></a>
+  </div>
+</footer>
+
+<div class="tooltip" id="tooltip" hidden></div>
+
+<script src="assets/vendor/gsap.min.js?v=202611070824" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js?v=202611070824" defer></script>
+<script src="assets/vendor/lenis.min.js?v=202611070824" defer></script>
+<script src="assets/js/config.js?v=202611070824" defer></script>
+<script src="assets/js/i18n.js?v=202611070824" defer></script>
+<script src="assets/js/chain.js?v=202611070824" defer></script>
+<script src="assets/js/charts.js?v=202611070824" defer></script>
+<script src="assets/js/orbit.js?v=202611070824" defer></script>
+<script src="assets/js/scenes.js?v=202611070824" defer></script>
+<script src="assets/js/motion.js?v=202611070824" defer></script>
+<script src="assets/js/app.js?v=202611070824" defer></script>
+</body>
+</html>
