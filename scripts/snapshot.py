@@ -396,10 +396,11 @@ def main():
         for entry in quote_rows[side].values():
             block = int(entry["blockNumber"], 16)
             t = parse(entry, clock)
-            row = {"tx": t["tx"], "ts": clock.exact(block), "block": block, "amount": as_tokens(t["value"])}
+            row = {"tx": t["tx"], "log": t["index"], "ts": clock.exact(block), "block": block, "amount": as_tokens(t["value"])}
             row["from" if side == "in" else "to"] = t["from"] if side == "in" else t["to"]
             # This read can run past the token cursor, so the next run may see the same transfer again.
-            if not any(r["tx"] == row["tx"] and r["amount"] == row["amount"] for r in flows[side]):
+            # One transaction can hold two equal transfers, so the log index is part of the key.
+            if not any(r["tx"] == row["tx"] and r.get("log") == row["log"] for r in flows[side]):
                 flows[side].append(row)
         flows[side].sort(key=lambda r: r["block"])
 
